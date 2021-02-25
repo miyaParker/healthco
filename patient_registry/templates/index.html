@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+ {% load static %}
+
+<main role="main">
+    <div class="row hero mt-4">
+        <div class="col-4 offset-1">
+            <img id="hero-image"
+                 src={% static 'patient_registry/assets/doctor.svg' %}
+                 alt="">
+        </div>
+        <div class="col-7">
+            <div class="jumbotron">
+                <div class="container">
+                    <h4 class="display-4"><b>Easy hospital management</b></h4><br>
+                    <p>Change the way you control, register and analyse information about patients<br> - with Medicare.
+                    </p>
+                    <a class="btn btn-lg" href={% url 'signup'%} role="button">Get started &raquo;</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="container">
+    <p class="text-center">&copy; Medicare 2020</p>
+</footer>
+{% endblock content %}

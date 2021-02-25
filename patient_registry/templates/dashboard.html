@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}Medicare{% endblock title %}</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href={% static 'patient_registry/css/styles.css' %}>
+  </head>
+
+<body>
+<nav class="navbar navbar-expand-md " style="color: white;">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 172 172"
+         style=" fill:#000000;">
+        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+           stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+           font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g fill="#1abc9c">
+                <path
+                        d="M86,6.88c-43.65603,0 -79.12,35.46397 -79.12,79.12c0,43.65603 35.46397,79.12 79.12,79.12c43.65603,0 79.12,-35.46397 79.12,-79.12c0,-43.65603 -35.46397,-79.12 -79.12,-79.12zM86,13.76c39.93779,0 72.24,32.30221 72.24,72.24c0,39.93779 -32.30221,72.24 -72.24,72.24c-39.93779,0 -72.24,-32.30221 -72.24,-72.24c0,-39.93779 32.30221,-72.24 72.24,-72.24zM55.48344,55.04v61.92h7.20922v-47.28656h0.51735l19.52469,46.86328h6.52391l19.52469,-46.86328h0.51735v47.28656h7.20922v-61.92h-8.96953l-21.19766,51.23719h-0.68531l-21.20438,-51.23719z">
+                </path>
+            </g>
+        </g>
+    </svg>
+    <a class="navbar-brand link" href={% url 'home' %}>Medicare </a>
+    <span class="col-3">Hello {{user}}</span>
+    <div class="collapse navbar-collapse nav justify-content-end" id="navbarsExampleDefault">
+        <ul class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item ">
+                        <a class="nav-link link mx-1" href={% url 'home' %}>Home <span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item link">
+                        <a class="nav-link link mx-1" href={% url 'patient-list' %}>Patients</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link link mx-1" href={% url 'logout' %}>Log out<span class="sr-only"></span></a>
+                    </li>
+            </div>
+
+        </ul>
+    </div>
+</nav>
+
+<div role="main" class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="row justify-content-center">
+                <div class="card small-card" style="width: 23rem;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="https://image.flaticon.com/icons/svg/1843/1843620.svg" alt="">
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-6 ">
+                                <h4>{{patients}}</h4>
+                                <h6 class="card-title" style="color: #706c61;"> Total Patients </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card small-card" style="width: 23rem;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="https://image.flaticon.com/icons/svg/921/921130.svg" alt="">
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-7">
+                                <h4>{{doctors}}</h4>
+                                <h6 class="card-title" style="color: #706c61;"> Total Doctors </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Patients By Gender</h4>
+                        <hr>
+                        <canvas id="myChart">Female vs male</canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Patients by Age</h5>
+                    <hr>
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col">
+        <div class="card" id="table">
+            <h5 class="card-title">Patients by departent</h5>
+            <table class="table table-borderless table-sm">
+                <tbody>
+                {% for key,value in depts %}
+                <tr>
+                    <th scope="row">{{key}}</th>
+                    <td>{{value}}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+  let endpoint = ['/users'];
+  $.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function (data) {
+      window.localStorage.setItem('users', JSON.stringify(data));
+      users = JSON.parse(window.localStorage.getItem('users', JSON.stringify(data)));
+      var female = []
+      var male = []
+      var adults = []
+      var adolescents = []
+      var length = 1
+      for (i in users) {
+        length = length + parseInt(i)
+        if (users[i].gender == "Female") {
+          female.push(users[i])
+        }
+        else {
+          male.push(users[i])
+        }
+      }
+      for (i in users) {
+        if (users[i].age > 18 || users[i].age == 18) {
+          adults.push(users[i])
+        }
+        else {
+          adolescents.push(users[i])
+        }
+      }
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+        // The data for our dataset
+        data: {
+          labels: [
+            'female',
+            'male'
+          ],
+          datasets: [{
+            label: 'Females and males',
+            backgroundColor: ['#f35588',
+              '#05dfd7'],
+            data: [female.length, male.length]
+          }]
+        },
+
+        // Configuration options go here
+        options: {}
+      });
+
+      var ctx = document.getElementById('myChart2').getContext('2d');
+      var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+        // The data for our dataset
+        data: {
+          labels: [
+            'adults',
+            'adolescents'
+          ],
+          datasets: [{
+            label: 'Adults and Adolescents',
+            backgroundColor: ['#99DDFF',
+              '#F3E367'],
+            data: [adults.length, adolescents.length]
+          }]
+        },
+
+        // Configuration options go here
+        options: {}
+      });
+    },
+    error: function (error) {
+      console.error("error")
+      console.error(error)
+    }
+  });
+
+
+
+
+</script>
+</body>
+
+</html>

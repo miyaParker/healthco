@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav class="container-fluid navbar navbar-expand-md navbar-dark fixed-top " style="position: relative;">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+             width="30" height="30"
+             viewBox="0 0 172 172"
+             style=" fill:#000000;">
+            <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+               stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+               font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                <path d="M0,172v-172h172v172z" fill="none"></path>
+                <g fill="#1abc9c">
+                    <path d="M86,6.88c-43.65603,0 -79.12,35.46397 -79.12,79.12c0,43.65603 35.46397,79.12 79.12,79.12c43.65603,0 79.12,-35.46397 79.12,-79.12c0,-43.65603 -35.46397,-79.12 -79.12,-79.12zM86,13.76c39.93779,0 72.24,32.30221 72.24,72.24c0,39.93779 -32.30221,72.24 -72.24,72.24c-39.93779,0 -72.24,-32.30221 -72.24,-72.24c0,-39.93779 32.30221,-72.24 72.24,-72.24zM55.48344,55.04v61.92h7.20922v-47.28656h0.51735l19.52469,46.86328h6.52391l19.52469,-46.86328h0.51735v47.28656h7.20922v-61.92h-8.96953l-21.19766,51.23719h-0.68531l-21.20438,-51.23719z"></path>
+                </g>
+            </g>
+        </svg>
+        <a class="navbar-brand" href={% url 'home' %}>Medicare </a>
+        <div class="collapse navbar-collapse nav justify-content-end" id="navbarsExampleDefault">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">About us</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href={% url 'dashboard' %}>Dashboard<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href={% url 'login' %}>Login<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href={% url 'logout' %}>Log out<span class="sr-only"></span></a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid col-4">
+        <h2 class="text-center">Create your account</h2>
+        <h5 class="text-center">For medical practitioners</h5>
+        <br>
+        <form action="." method="POST">{% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username">
+                <small id="check" hidden>Username already exists</small>
+            </div>
+            <div class="form-group">
+                <label for="fullname">Full name</label>
+                <input type="text" class="form-control" id="fullname" name="fullname">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label for="id">Personnel ID</label>
+                <input type="text" class="form-control" id="id" name="personnel_id">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="col btn btn-primary">Create account</button>
+            <br>
+        </form>
+        <p>Already have an account? Login <a href={% url 'login'%}>here</a></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        let endpoint = '/users';
+        let field = $('#username');
+        var userList = []
+        $.ajax({
+            type: "GET",
+            url: endpoint,
+            success: function (users) {
+                for (i in users) {
+                    userList.push(users[i].username)
+                }
+            },
+            error: function (error) {
+                console.error("error:", error)
+            }
+        });
+        field.change(function () {
+            if (userList.includes(field.val().trim())) {
+
+                $('#check').removeAttr("hidden")
+            }
+            else {
+                $('#check').attr("hidden", true)
+            }
+        });
+
+    </script>
+    </body>
+{% endblock content%}

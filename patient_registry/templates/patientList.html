@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Medicare{% endblock title %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href={% static 'patient_registry/css/styles.css' %}>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 172 172"
+         style=" fill:#000000;">
+        <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"
+           stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+           font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g fill="#1abc9c">
+                <path
+                        d="M86,6.88c-43.65603,0 -79.12,35.46397 -79.12,79.12c0,43.65603 35.46397,79.12 79.12,79.12c43.65603,0 79.12,-35.46397 79.12,-79.12c0,-43.65603 -35.46397,-79.12 -79.12,-79.12zM86,13.76c39.93779,0 72.24,32.30221 72.24,72.24c0,39.93779 -32.30221,72.24 -72.24,72.24c-39.93779,0 -72.24,-32.30221 -72.24,-72.24c0,-39.93779 32.30221,-72.24 72.24,-72.24zM55.48344,55.04v61.92h7.20922v-47.28656h0.51735l19.52469,46.86328h6.52391l19.52469,-46.86328h0.51735v47.28656h7.20922v-61.92h-8.96953l-21.19766,51.23719h-0.68531l-21.20438,-51.23719z">
+                </path>
+            </g>
+        </g>
+    </svg>
+    <a class="navbar-brand link" href={% url 'home' %}>Medicare </a>
+
+    <div class="collapse navbar-collapse nav justify-content-end" id="navbarsExampleDefault">
+
+        <ul class="navbar-nav">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item my-auto mx-4">
+                        <a class="link" href={% url 'record' %}>Add Record
+                    </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <select class="form-control " id="filter" name="gender" required>
+                            <option>Sort by</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Underweight</option>
+                            <option>Overweight</option>
+                            <option>Normal weight</option>
+                            <option>Obesity</option>
+                        </select>
+                    </li>
+
+            </div>
+
+        </ul>
+    </div>
+</nav>
+
+</div>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Patient ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gender</th>
+        <th scope="col">BMI</th>
+        <th scope="col">Blood Type</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Allergies</th>
+    </tr>
+    </thead>
+    <tbody class="all">
+    </tbody>
+
+</table>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        // for(user in users){
+        $('#tbody')
+            .append('<tr>value</tr>')
+        // }
+    })
+    let endpoint = ['/records'];
+    let users = []
+    males = []
+    filter = $('#filter')
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function (data) {
+            users = data
+            for (i in users) {
+                patient_id = users[i].patient_id
+                name = users[i].fullname
+                age = users[i].age
+                gender = users[i].gender
+                bmi = users[i].bmi
+                blood = users[i].blood_type
+                contact = users[i].support_contact
+                allergies = users[i].allergies
+                markup = '<tbody><tr><td>' + patient_id + '</td><td>' + name + '</td><td>' + age
+                    + '</td><td>' + gender + '</td><td>' + bmi + '</td><td>' + blood
+                    + '</td><td>' + contact + '</td><td>' + allergies + '</td></tr></tbody>'
+                $('table').append(markup)
+            }
+        },
+        error: {},
+    })
+    function filter_key(key, value) {
+        table_markup = []
+        if (key == "" && value == "") {
+            for (i in users) {
+                patient_id = users[i].patient_id
+                name = users[i].fullname
+                age = users[i].age
+                gender = users[i].gender
+                bmi = users[i].bmi
+                blood = users[i].blood_type
+                contact = users[i].support_contact
+                allergies = users[i].allergies
+                markup = '<tbody><tr><td>' + patient_id + '</td><td>' + name + '</td><td>' + age
+                    + '</td><td>' + gender + '</td><td>' + bmi + '</td><td>' + blood
+                    + '</td><td>' + contact + '</td><td>' + allergies + '</td></tr></tbody>'
+                $('table').append(markup)
+            }
+
+        }
+        for (i in users) {
+            if (users[i][key] == value) {
+                patient_id = users[i].patient_id
+                name = users[i].fullname
+                age = users[i].age
+                gender = users[i].gender
+                bmi = users[i].bmi
+                blood = users[i].blood_type
+                contact = users[i].support_contact
+                allergies = users[i].allergies
+                markup = '<tbody><tr><td>' + patient_id + '</td><td>' + name + '</td><td>' + age
+                    + '</td><td>' + gender + '</td><td>' + bmi + '</td><td>' + blood
+                    + '</td><td>' + contact + '</td><td>' + allergies + '</td></tr></tbody>'
+                table_markup.push(markup)
+            }
+
+        }
+        filtered = $('table').append(table_markup)
+        return (filtered)
+    }
+
+    filter.change(function () {
+        $('tbody').attr("hidden", true)
+        if (filter.val() == "Sort by") {
+            filter_key("", "")
+        }
+        if (filter.val() == "Male") {
+            filter_key("gender", "Male")
+        }
+        if (filter.val() == "Female") {
+            filter_key("gender", "Female")
+        }
+        if (filter.val() == "Obesity") {
+            filter_key("bmi", "obesity")
+        }
+        if (filter.val() == "Underweight") {
+            filter_key("bmi", "underweight")
+        }
+        if (filter.val() == "Overweight") {
+            filter_key("bmi", "overweight")
+        }
+        if (filter.val() == "Normal weight") {
+            filter_key("bmi", "normal weight")
+        }
+        // if(filter.val()=="Filter"){
+        //     filter_key("Female")
+        // }
+    });
+
+
+
+</script>
+</body>

@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+*{
+    padding: none;
+}
+body{
+    background-color:#f1fcfc;
+    font-family: 'Montserrat';
+    max-width: 100%;
+    overflow-x:hidden;
+}
+.link{
+    color: white;
+}
+img{
+height:5rem;
+width:5rem;}
+.card{
+    border-radius: 10px;
+    margin: 3px;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.006),
+    0 100px 80px rgba(0, 0, 0, 0.001);
+}
+.small-card{
+    height: 8rem;
+    margin-bottom: 15px;
+    width: 17rem   
+}
+#table{
+    width: 22rem;
+    height: auto;
+    padding: 1rem;
+    margin: 10px 0 20px 3px ;
+    
+}
+.add{
+    width: 1.5rem;
+    height:1.5rem;
+}
+.jumbotron{
+    background-color: #f1fcfc;
+    height: 35rem;
+    display: block;
+}
+#hero-image{
+    margin-top: 3rem;
+    height: auto;
+    width: 100%;
+}
+.hero{
+    margin-top: 3rem;
+}
+.navbar{
+    margin-bottom: 3rem
+}
+.nav-item{
+color:white;
+}
+.navbar,.btn{
+    background-color: #633a82;
+    }
+.btn{
+    margin: 2rem 0;
+    color: white;
+}
+.btn:hover{
+    background-color: ghostwhite;
+    color:#633a85;
+}
+
+a .btn{
+    color:#633a82;
+    text-decoration: none;
+    text-underline: none;
+}
+.link{
+text-decoration:none}
+.link:hover{
+color:ghostwhite;
+text-decoration:none}
+.link:active{
+text-decoration:none}
